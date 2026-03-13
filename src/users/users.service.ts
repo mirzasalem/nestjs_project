@@ -22,4 +22,20 @@ export class UsersService {
     const user = this.usersRepository.create(data);
     return this.usersRepository.save(user);
   }
+
+  async incrementCancellationCount(userId: number): Promise<void> {
+    await this.usersRepository.increment({ id: userId }, 'cancellationCount', 1);
+    const user = await this.findById(userId);
+    if (user && user.cancellationCount >= 3) {
+      user.isFlagged = true;
+      await this.usersRepository.save(user);
+    }
+  }
+
+  async resetCancellationCount(userId: number): Promise<void> {
+    await this.usersRepository.update(userId, {
+      cancellationCount: 0,
+      isFlagged: false,
+    });
+  }
 }
