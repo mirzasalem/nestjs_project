@@ -1,99 +1,391 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# 🛒 E-Commerce REST API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+A fully-featured e-commerce backend built with **NestJS**, **TypeORM**, and **MySQL**. This API supports authentication, role-based access control, product management, cart operations, and order processing with full business logic and data consistency.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+---
 
-## Description
+## 🚀 Tech Stack
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- **Framework**: NestJS
+- **Database**: MySQL
+- **ORM**: TypeORM
+- **Authentication**: JWT (JSON Web Tokens)
+- **Validation**: class-validator & class-transformer
+- **API Docs**: Swagger UI
 
-## Project setup
+---
 
-```bash
-$ npm install
+## ✨ Features
+
+- ✅ User Registration & Login with JWT
+- ✅ Role-based Access Control (Admin / Customer)
+- ✅ Product & Category Management (Admin only)
+- ✅ Shopping Cart (Add, Remove, View)
+- ✅ Order Placement with stock deduction
+- ✅ Backend order total calculation
+- ✅ Prevent over-ordering (stock validation)
+- ✅ Prevent negative inventory
+- ✅ Order cancellation with stock restoration
+- ✅ Fraud prevention (cancellation limit per user)
+- ✅ Order status management (Pending / Shipped / Delivered / Cancelled)
+- ✅ Database transactions for data integrity
+- ✅ Input validation & error handling
+- ✅ Swagger API documentation
+
+---
+
+## 📁 Project Structure
+
+```
+src/
+├── auth/                   # JWT auth, guards, decorators
+│   ├── dto/
+│   │   ├── register.dto.ts
+│   │   └── login.dto.ts
+│   ├── auth.controller.ts
+│   ├── auth.service.ts
+│   ├── auth.module.ts
+│   ├── jwt.strategy.ts
+│   ├── roles.decorator.ts
+│   ├── roles.enum.ts
+│   └── roles.guard.ts
+├── users/                  # User entity & service
+│   ├── user.entity.ts
+│   ├── users.service.ts
+│   ├── users.controller.ts
+│   └── users.module.ts
+├── products/               # Product CRUD (Admin only)
+│   ├── dto/
+│   │   ├── create-product.dto.ts
+│   │   └── update-product.dto.ts
+│   ├── product.entity.ts
+│   ├── products.controller.ts
+│   ├── products.service.ts
+│   └── products.module.ts
+├── categories/             # Product categories
+│   ├── dto/
+│   │   └── create-category.dto.ts
+│   ├── category.entity.ts
+│   ├── categories.controller.ts
+│   ├── categories.service.ts
+│   └── categories.module.ts
+├── cart/                   # Shopping cart
+│   ├── dto/
+│   │   └── add-to-cart.dto.ts
+│   ├── cart.entity.ts
+│   ├── cart.controller.ts
+│   ├── cart.service.ts
+│   └── cart.module.ts
+├── orders/                 # Order management
+│   ├── dto/
+│   │   ├── create-order.dto.ts
+│   │   └── update-order-status.dto.ts
+│   ├── order.entity.ts
+│   ├── order-item.entity.ts
+│   ├── orders.controller.ts
+│   ├── orders.service.ts
+│   └── orders.module.ts
+├── app.module.ts
+└── main.ts
 ```
 
-## Compile and run the project
+---
 
+## ⚙️ Installation & Setup
+
+### Prerequisites
+- Node.js (v18+)
+- MySQL
+- npm
+
+### 1. Clone the repository
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+git clone https://github.com/mirzasalem/nestjs_project.git
+cd ecommerce-backend
 ```
 
-## Run tests
-
+### 2. Install dependencies
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+npm install
 ```
 
-## Deployment
+### 3. Configure environment variables
+Create a `.env` file in the root directory:
+```env
+# Database
+DB_HOST=localhost
+DB_PORT=3306
+DB_USERNAME=root
+DB_PASSWORD=your_mysql_password
+DB_NAME=ecommerce
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+# JWT
+JWT_SECRET=your_super_secret_jwt_key_here
+JWT_EXPIRES_IN=7d
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
-
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+# App
+PORT=3000
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+### 4. Create MySQL database
+```sql
+CREATE DATABASE ecommerce;
+```
 
-## Resources
+### 5. Run the application
+```bash
+# Development
+npm run start:dev
 
-Check out a few resources that may come in handy when working with NestJS:
+# Production
+npm run build
+npm run start:prod
+```
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+The server will start at `http://localhost:3000/api` 🚀
 
-## Support
+---
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+## 📖 API Documentation
 
-## Stay in touch
+Swagger UI is available at:
+```
+http://localhost:3000/api/docs
+```
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+---
 
-## License
+## 🔐 Authentication
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
-# nestjs_project
+This API uses **JWT Bearer Token** authentication.
+
+1. Register or login to get a token
+2. Include the token in the `Authorization` header:
+```
+Authorization: Bearer <your_token>
+```
+
+---
+
+## 📡 API Endpoints
+
+### 🔑 Auth
+| Method | Endpoint | Access | Description |
+|--------|----------|--------|-------------|
+| POST | `/api/auth/register` | Public | Register a new user |
+| POST | `/api/auth/login` | Public | Login and get JWT token |
+
+### 📦 Products
+| Method | Endpoint | Access | Description |
+|--------|----------|--------|-------------|
+| GET | `/api/products` | Public | Get all products |
+| GET | `/api/products/:id` | Public | Get product by ID |
+| POST | `/api/products` | Admin | Create a new product |
+| PATCH | `/api/products/:id` | Admin | Update a product |
+| DELETE | `/api/products/:id` | Admin | Delete a product |
+
+### 🗂️ Categories
+| Method | Endpoint | Access | Description |
+|--------|----------|--------|-------------|
+| GET | `/api/categories` | Public | Get all categories |
+| GET | `/api/categories/:id` | Public | Get category by ID |
+| POST | `/api/categories` | Admin | Create a new category |
+| PATCH | `/api/categories/:id` | Admin | Update a category |
+| DELETE | `/api/categories/:id` | Admin | Delete a category |
+
+### 🛒 Cart
+| Method | Endpoint | Access | Description |
+|--------|----------|--------|-------------|
+| GET | `/api/cart` | Customer | View cart with total |
+| POST | `/api/cart` | Customer | Add product to cart |
+| DELETE | `/api/cart/:id` | Customer | Remove item from cart |
+
+### 📋 Orders
+| Method | Endpoint | Access | Description |
+|--------|----------|--------|-------------|
+| POST | `/api/orders` | Customer | Place an order |
+| GET | `/api/orders/my-orders` | Customer | Get my orders |
+| GET | `/api/orders/:id` | Both | Get order by ID |
+| GET | `/api/orders` | Admin | Get all orders |
+| PATCH | `/api/orders/:id/status` | Admin | Update order status |
+| PATCH | `/api/orders/:id/cancel` | Customer | Cancel an order |
+
+---
+
+## 💡 Usage Examples
+
+### Register a Customer
+```json
+POST /api/auth/register
+{
+  "name": "Mirza Salem",
+  "email": "mirza@example.com",
+  "password": "123456",
+  "role": "customer"
+}
+```
+
+### Register an Admin
+```json
+POST /api/auth/register
+{
+  "name": "Admin User",
+  "email": "admin@example.com",
+  "password": "123456",
+  "role": "admin"
+}
+```
+
+### Create a Category (Admin)
+```json
+POST /api/categories
+Authorization: Bearer <admin_token>
+{
+  "name": "Electronics",
+  "description": "Electronic products"
+}
+```
+
+### Create a Product (Admin)
+```json
+POST /api/products
+Authorization: Bearer <admin_token>
+{
+  "name": "Product Name",
+  "description": "description",
+  "price": 999.99,
+  "stock": 10,
+  "categoryId": 1
+}
+```
+
+### Add to Cart (Customer)
+```json
+POST /api/cart
+Authorization: Bearer <customer_token>
+{
+  "productId": 1,
+  "quantity": 2
+}
+```
+
+### Place Order from Cart (Customer)
+```json
+POST /api/orders
+Authorization: Bearer <customer_token>
+{}
+```
+
+### Place Order with Specific Items (Customer)
+```json
+POST /api/orders
+Authorization: Bearer <customer_token>
+{
+  "items": [
+    { "productId": 1, "quantity": 2 },
+    { "productId": 2, "quantity": 1 }
+  ]
+}
+```
+
+### Update Order Status (Admin)
+```json
+PATCH /api/orders/1/status
+Authorization: Bearer <admin_token>
+{
+  "status": "shipped"
+}
+```
+
+---
+
+## 🗄️ Database Entities
+
+### User
+| Field | Type | Description |
+|-------|------|-------------|
+| id | int | Primary key |
+| name | varchar | Full name |
+| email | varchar | Unique email |
+| password | varchar | Hashed password |
+| role | enum | admin / customer |
+| cancellationCount | int | Tracks cancellations |
+| isFlagged | boolean | Fraud flag |
+
+### Product
+| Field | Type | Description |
+|-------|------|-------------|
+| id | int | Primary key |
+| name | varchar | Product name |
+| description | varchar | Description |
+| price | decimal | Product price |
+| stock | int | Available stock |
+| image | varchar | Image URL |
+| isActive | boolean | Active status |
+| category | relation | ManyToOne → Category |
+
+### Order
+| Field | Type | Description |
+|-------|------|-------------|
+| id | int | Primary key |
+| user | relation | ManyToOne → User |
+| items | relation | OneToMany → OrderItem |
+| total | decimal | Calculated total |
+| status | enum | pending / shipped / delivered / cancelled |
+
+### OrderItem
+| Field | Type | Description |
+|-------|------|-------------|
+| id | int | Primary key |
+| order | relation | ManyToOne → Order |
+| product | relation | ManyToOne → Product |
+| quantity | int | Quantity ordered |
+| price | decimal | Price at time of order |
+
+---
+
+## 🔒 Business Rules
+
+- Customers **cannot order more** than available stock
+- Order total is **always calculated on the backend**
+- Stock is **deducted only after** successful order placement
+- **Negative inventory is prevented** at all times
+- Orders can only be cancelled when status is **Pending**
+- Stock is **restored automatically** when an order is cancelled
+- Users who cancel **3 or more orders** are flagged for fraud and blocked from further cancellations
+- Database **transactions** ensure data consistency across all order operations
+
+---
+
+## 👥 Roles & Permissions
+
+| Feature | Admin | Customer |
+|---------|-------|----------|
+| Register / Login | ✅ | ✅ |
+| View Products | ✅ | ✅ |
+| Manage Products | ✅ | ❌ |
+| Manage Categories | ✅ | ❌ |
+| View All Orders | ✅ | ❌ |
+| Update Order Status | ✅ | ❌ |
+| Use Cart | ❌ | ✅ |
+| Place Order | ❌ | ✅ |
+| View Own Orders | ❌ | ✅ |
+| Cancel Own Order | ❌ | ✅ |
+
+---
+
+## 🛡️ Security
+
+- Passwords are hashed using **bcryptjs**
+- JWT tokens expire after **7 days**
+- All protected routes require a valid JWT token
+- Role-based guards prevent unauthorized access
+- Input validation on all endpoints
+
+---
+
+## 👨 Author
+
+Mirza Salem  
+[GitHub](https://github.com/mirzasalem/) | [LinkedIn](https://www.linkedin.com/in/mirzasalem/) | [Portfolio](https://mirzasalem.vercel.app/)
+

@@ -68,7 +68,6 @@ export class OrdersService {
       const total = orderItems.reduce((sum, item) => {
         return sum + Number(item.price) * item.quantity;
       }, 0);
-
       // Create order
       const order = manager.create(Order, {
         user: { id: userId },
